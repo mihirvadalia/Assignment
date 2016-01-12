@@ -1,0 +1,26 @@
+1. Name node
+	i. Kepp image of entire file system namespace
+	ii. Block Map
+	iii. Keep updating checkpoints for emergency uses.
+	iv. Manages Datanode
+
+2. Data node
+	i. Serves Read
+	ii. Write Requests
+	iii. Performs Block Creation
+	iv. Block Deletion
+	v. Block Replication
+
+3. Resourse Manager
+	i. Single Instance per Cluster
+	ii. Keep tracks of all jobs
+	iii. Communicate with Node Manager
+	iv. Manage Resourse Allocation
+	v. Job Scheduling
+
+4. Node Manager
+	i. Manage Tasks
+	ii. Continuos reporting to Resourse Manager for all tasks
+	iii. Single Instance per Cluster
+	iv. Monitoring and Reporting local jobs containers
+	v. Takes Job

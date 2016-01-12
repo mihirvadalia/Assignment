@@ -1,0 +1,22 @@
+import java.util.ArrayList;
+
+public class String_demo {
+
+	public static void main(String[] args) {
+		String line="Hadoop is open source frame work ,Hadoop is good framework for handling big data";
+		String splitBySpace[] = line.split(" ");
+		int count = 0;
+		ArrayList<String> output = new ArrayList<String>();
+		for (String string : splitBySpace) {
+			string = string.replace(",", " ");
+			if(string.contains("Hadoop")) {
+				count++;
+			}
+			output.add(string);
+		}
+		System.out.println(output);
+		System.out.println("'Hadoop' word occured " + count + " times");
+	}
+
+}
+

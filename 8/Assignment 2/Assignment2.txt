@@ -1,0 +1,34 @@
+describe score
+score: {fname: chararray,lname: chararray,age: int,gpa: float,country: chararray}
+
+
+
+
+fullname = FOREACH score GENERATE CONCAT(fname,lname);
+
+
+
+
+G = GROUP score BY country;
+
+
+SumCountryGPA = FOREACH G GENERATE group, SUM(score.gpa);
+
+
+
+
+MinCountryGPA = FOREACH G GENERATE group, MIN(score.gpa);
+
+
+
+
+MaxCountryGPA = FOREACH G GENERATE group, MAX(score.gpa);
+
+
+
+
+ThreeFN = LIMIT fullname 2;
+
+
+STORE ThreeFN into 'filename';
+

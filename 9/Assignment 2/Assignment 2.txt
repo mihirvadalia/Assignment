@@ -1,0 +1,55 @@
+1. Find number of students who scored less than 5(50%).
+
+>> data = LOAD 'studentds' USING PigStorage(',') AS (name:chararray,undertaken:chararray,dob:chararray,stream:chararray,grade:float,state:chararray,city:chararray);
+
+>> filter_less_5 = FILTER data BY grade < 5;
+
+>> group_filter_less_5 = GROUP filter_less_5 ALL;
+
+>> count_filter_less_5 = FOREACH group_filter_less_5 GENERATE COUNT(filter_less_5.name);
+
+>> dump count_filter_less_5;
+
+
+
+
+2. list name of students who are from alaska.
+
+>> data = LOAD 'studentds' USING PigStorage(',') AS (name:chararray,undertaken:chararray,dob:chararray,stream:chararray,grade:float,state:chararray,city:chararray);
+
+>> filter_alaska = FILTER data BY state == 'alaska';
+
+>> alaska_student_name = FOREACH filter_alaska GENERATE name;
+
+>> dump alaska_student_name;
+
+
+
+
+3. How many goverenment collages are there in alabama.
+
+>> data = LOAD 'studentds' USING PigStorage(',') AS (name:chararray,undertaken:chararray,dob:chararray,stream:chararray,grade:float,state:chararray,city:chararray);
+
+>> filter_collage = FILTER data BY undertaken == 'goverenment' AND state == 'alabama';
+
+>> group_collage = GROUP filter_collage ALL;
+
+>> count_collage = FOREACH group_collage GENERATE COUNT(filter_collage.name);
+
+>> dump count_collage;
+
+
+
+
+4. list name of students who are from oregon and persuing BE.
+
+>> data = LOAD 'studentds' USING PigStorage(',') AS (name:chararray,undertaken:chararray,dob:chararray,stream:chararray,grade:float,state:chararray,city:chararray);
+
+>> filter_students = FILTER data BY $3 == 'BE' AND $5 == 'oregon';
+
+>> group_students = GROUP filter_students ALL;
+
+>> count_students = FOREACH group_students GENERATE COUNT(filter_students.name);
+
+>> dump count_students;
+

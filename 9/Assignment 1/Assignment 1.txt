@@ -1,0 +1,62 @@
+1. What is the total amount of petrol in volume sold by every distributer.
+
+>> data = LOAD 'petrol_dataset' USING PigStorage(',') AS (id:chararray,name:chararray,buyrate:chararray,sellrate:chararray,in:int,out:int,year:int);
+
+>> group_all_volume_out = GROUP data ALL;
+
+>> sum_all_volume_out = FOREACH group_all_volume_out GENERATE SUM(data.out) as totalSoldByAllDistributer;
+
+>> dump sum_all_volume_out;
+
+
+
+
+2. which are the top 10 distributers ID's for selling petrol and also display the amount of
+petrol sold in volume.
+
+>> ratedata = FOREACH data {
+actual_sellrate = (double)SUBSTRING(sellrate,1,(int)SIZE(sellrate));
+GENERATE id,name,actual_sellrate as srate,out;
+}
+
+>> order_ratedata_by_srate = ORDER ratedata BY srate DESC;
+
+>> limit_top_dist_by_srate = LIMIT order_ratedata_by_srate 10;
+
+>> dump limit_top_dist_by_srate;
+
+
+
+
+
+
+3. list 10 year where consumption of petrol is more with the distributer id who sold it.
+
+>> group_company = GROUP data BY year;
+>> sum_out_of_company = FOREACH group_company GENERATE group, SUM(data.in) as totalYearlyConsumption;
+, FLATTEN(data.id);
+
+>> order_sum_company_consumption = ORDER sum_out_of_company BY totalYearlyConsumption DESC;
+
+>> company_top_consumption = LIMIT order_sum_company_consumption 10;
+
+>> dump company_top_consumption;
+
+
+
+
+4. find distributer name who sold petrol in least amount.
+
+>> ratedata = FOREACH data {
+actual_sellrate = (double)SUBSTRING(sellrate,1,(int)SIZE(sellrate));
+unit_sellrate = actual_sellrate / out;
+GENERATE id,name,actual_sellrate as srate,unit_sellrate as usrate,out;
+}
+
+>> order_ratedata = ORDER ratedata BY usrate ASC;
+
+>> least_sold_distributer = LIMIT order_ratedata 1;
+
+>> distributer_name = FOREACH least_sold_distributer GENERATE name;
+
+>> dump distributer_name;

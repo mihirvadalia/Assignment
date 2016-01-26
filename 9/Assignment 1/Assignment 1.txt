@@ -34,7 +34,7 @@ GENERATE id,name,actual_sellrate as srate,out;
 
 >> group_company = GROUP data BY year;
 >> sum_out_of_company = FOREACH group_company GENERATE group, SUM(data.in) as totalYearlyConsumption;
-, FLATTEN(data.id);
+
 
 >> order_sum_company_consumption = ORDER sum_out_of_company BY totalYearlyConsumption DESC;
 
